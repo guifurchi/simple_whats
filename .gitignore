@@ -11,4 +11,4 @@ dist/
 build/
 
 # Arquivos de ambiente
-.env
+#.env
