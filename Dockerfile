@@ -1,32 +1,20 @@
-# Use the official Node.js Alpine image as the base image
-FROM node:20-alpine
+# Use a imagem oficial do Node.js
+FROM node:20
 
-# Set the working directory
+# Define o diretório de trabalho
 WORKDIR /usr/src/app
 
-# Install Chromium
-ENV CHROME_BIN="/usr/bin/chromium-browser" \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true" \
-    NODE_ENV="production"
-RUN set -x \
-    && apk update \
-    && apk upgrade \
-    && apk add --no-cache \
-    udev \
-    ttf-freefont \
-    chromium
-
-# Copy package.json and package-lock.json to the working directory
+# Copia os arquivos de dependência
 COPY package*.json ./
 
-# Install the dependencies
-RUN npm ci --only=production --ignore-scripts
+# Instala as dependências
+RUN npm install
 
-# Copy the rest of the source code to the working directory
+# Copia o restante dos arquivos da aplicação
 COPY . .
 
-# Expose the port the API will run on
+# Expõe a porta da aplicação
 EXPOSE 3000
 
-# Start the API
-CMD ["npm", "start"]
+# Comando para iniciar a aplicação
+CMD ["node", "app.js"]
